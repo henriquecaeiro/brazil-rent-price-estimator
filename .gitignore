@@ -208,7 +208,9 @@ __marimo__/
 
 # Models
 models/
-notebooks/catboost_info
+
+# Notebooks (CatBoost artifacts)
+notebooks/catboost_info/
 
 # Data
 data/work/
