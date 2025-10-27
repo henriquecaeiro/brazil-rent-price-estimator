@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Literal
 from .schemas import UniqueValuesResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from .loader import load_model
 from . import loader
@@ -20,6 +21,14 @@ app = FastAPI(
     title="Rent Prediction API",
     description="API to estimate the rental value of properties in São Paulo.",
     version="1.1.0" # Updated version
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],            
+    allow_credentials=True,          
+    allow_methods=["*"],              
+    allow_headers=["*"],             
 )
 
 # --- Model Loading ---
