@@ -32,6 +32,23 @@ Para executar este projeto, você precisa ter o Python 3.11 ou superior instalad
    ```
 A API estará disponível em `http://127.0.0.1:8000`.
 
+## 💾 Gerando o Modelo
+
+O modelo de machine learning não está salvo neste repositório. Para usar a aplicação, você primeiro precisa gerar o modelo e os arquivos auxiliares executando os Jupyter Notebooks na ordem correta. O script `notebooks/features.py` é usado pelos notebooks para criar novas features.
+
+**Importante:** Na primeira vez que você executar o notebook `model_export.ipynb`, ele realizará um passo de geocodificação para obter a latitude e a longitude dos endereços. Esse processo pode ser lento e criará um arquivo `rents_geocoded.csv` no diretório `data/work/`. As execuções subsequentes usarão esse arquivo e serão muito mais rápidas.
+
+1.  **Abra o diretório `notebooks`.**
+2.  **Execute o notebook `eda.ipynb`:** Este notebook realiza a análise exploratória dos dados e salva os dados limpos no diretório `data/work/`.
+3.  **Execute o notebook `model_export.ipynb`:** Este notebook treina o modelo final e o salva como `stacking_model.joblib` no diretório `models/`. Ele também salva um arquivo `kmeans_model.joblib`, que é usado para o geo-clustering.
+
+Após executar esses notebooks, os seguintes arquivos serão criados:
+- `data/work/rents_geocoded.csv`
+- `models/stacking_model.joblib`
+- `models/kmeans_model.joblib`
+
+A API poderá então usar esses arquivos para fazer previsões.
+
 ## 🤖 Modelo e Métricas
 
 A previsão do preço do aluguel é feita por um modelo `StackingRegressor`, que combina as previsões de um `RandomForestRegressor` e um `CatBoostRegressor`. A previsão final é feita por um regressor `Ridge`. O modelo também utiliza um modelo `KMeans` para criar clusters geográficos com base na latitude e longitude.

@@ -32,6 +32,23 @@ To run this project, you need to have Python 3.11 or higher installed.
    ```
 The API will be available at `http://127.0.0.1:8000`.
 
+## 💾 Generating the Model
+
+The machine learning model is not saved in this repository. To use the application, you first need to generate the model and auxiliary files by running the Jupyter Notebooks in the correct order. The `notebooks/features.py` script is used by the notebooks to create new features.
+
+**Important:** The first time you run the `model_export.ipynb` notebook, it will perform a geocoding step to get the latitude and longitude for the addresses. This process can be slow and will create a `rents_geocoded.csv` file in the `data/work/` directory. Subsequent runs will use this file and be much faster.
+
+1.  **Open the `notebooks` directory.**
+2.  **Run the `eda.ipynb` notebook:** This notebook performs exploratory data analysis and saves the cleaned data in the `data/work/` directory.
+3.  **Run the `model_export.ipynb` notebook:** This notebook trains the final model and saves it as `stacking_model.joblib` in the `models/` directory. It also saves a `kmeans_model.joblib` file, which is used for geo-clustering.
+
+After running these notebooks, the following files will be created:
+- `data/work/rents_geocoded.csv`
+- `models/stacking_model.joblib`
+- `models/kmeans_model.joblib`
+
+The API will then be able to use these files for predictions.
+
 ## 🤖 Model and Metrics
 
 The rent price prediction is done by a `StackingRegressor` model, which combines the predictions of a `RandomForestRegressor` and a `CatBoostRegressor`. The final prediction is made by a `Ridge` regressor. The model also uses a `KMeans` model to create geographic clusters based on latitude and longitude.
